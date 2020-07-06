@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "linetface"
+version = "0.1.0"
+description = "Retrieve Linux network interfaces info"
+authors = ["Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"]
+maintainers = [
+    "Nguyễn Hồng Quân <ng.hong.quan@gmail.com>"
+]
+license = "Apache-2.0"
+readme = "README.rst"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Telecommunications Industry",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: System :: Networking",
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pyroute2 = "^0.5.12"
+single-version = "^1.2.2"
+netaddr = "^0.7.20"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+pytest-flake8 = "^1.0.6"
+first = "^2.0.2"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

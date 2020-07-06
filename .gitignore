@@ -114,6 +114,15 @@ venv.bak/
 .spyderproject
 .spyproject
 
+# IDE
+.idea/
+*.komodoproject
+.komodotools
+.vscode
+
+# GitEye
+.project
+
 # Rope project settings
 .ropeproject
 
