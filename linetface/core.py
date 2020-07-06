@@ -30,6 +30,14 @@ class IPLink:
     link_type: LinkType
     address: LinuxMAC
     broadcast: LinuxMAC
+    promiscuity: int
+    min_mtu: int
+    max_mtu: int
+    inet6_addr_gen_mode: str
+    num_tx_queues: int
+    num_rx_queues: int
+    gso_max_size: int
+    gso_max_segs: int
 
     def to_dict(self):
         return dataclasses.asdict(self)

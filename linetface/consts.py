@@ -181,3 +181,19 @@ class LinkType(int, Enum):
     # in Linux source code
     VOID = (65535, 'void')             # Void type, nothing is known
     NONE = (65534, 'none')             # zero header length
+
+
+class Inet6AddrGenMode(int, Enum):
+    def __new__(cls, value, display):
+        obj = int.__new__(cls, value)
+        obj._value_ = value
+        obj.display = display
+        return obj
+
+    def __str__(self):
+        return self.display
+
+    EUI64 = (0, 'eui64')
+    NONE = (1, 'none')
+    STABLE_PRIVACY = (2, 'stable_secret')
+    RANDOM = (3, 'random')
