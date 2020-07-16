@@ -1,0 +1,6 @@
+# Doc dependencies tracked separately here for interoperability with readthedocs.org
+recommonmark==0.6.0
+sphinx_rtd_theme==0.5.0
+sphinx-autodoc-typehints==1.11.0
+Sphinx==3.1.1
+toml==0.10.0

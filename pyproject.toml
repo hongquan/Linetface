@@ -35,5 +35,5 @@ sphinx_autodoc_typehints = "^1.11.0"
 sphinx-rtd-theme = "^0.5.0"
 
 [build-system]
-requires = ["poetry>=0.12", "rtd-poetry"]
-build-backend = "rtd_poetry"
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
