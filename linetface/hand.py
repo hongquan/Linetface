@@ -1,12 +1,15 @@
 import struct
+import ipaddress
 from typing import Tuple, Optional
 
-from pyroute2 import IPRoute
+from pyroute2 import IPRoute as _IPRoute
 from pyroute2.netlink import nla_slot, nla_base
 from pyroute2.netlink.rtnl.ifinfmsg import ifinfmsg, ifinfbase
+from pyroute2.netlink.rtnl.ifaddrmsg import ifaddrmsg
 
-from .core import IPLink, LinuxMAC
-from .consts import LinkFlag, OperState, LinkType, LinkMode, Inet6AddrGenMode
+from .core import IPLink, LinuxMAC, IPAddr, AddrInfo
+from .consts import LinkFlag, OperState, LinkType, LinkMode, \
+    Inet6AddrGenMode, AddressFamily, RTScope, IFAFlag
 
 
 def extract_nla_short_int(msg: ifinfmsg, numeric_type: int) -> Optional[int]:
@@ -83,12 +86,62 @@ def shinify_link(msg: ifinfmsg) -> IPLink:
     )
 
 
+def shinify_addr_info(msg: ifaddrmsg) -> AddrInfo:
+    family = AddressFamily(msg['family'])
+    local = ipaddress.ip_address(msg.get_attr('IFA_LOCAL'))
+    prefixlen = msg['prefixlen']
+    try:
+        broadcast = ipaddress.ip_address(msg.get_attr('IFA_BROADCAST'))
+    except ValueError:
+        broadcast = None
+    scope = RTScope(msg['scope'])
+    label = msg.get_attr('IFA_LABEL')
+    cache_info = msg.get_attr('IFA_CACHEINFO')
+    valid_life_time = cache_info['ifa_valid']
+    preferred_life_time = cache_info['ifa_preferred']
+    aflag = IFAFlag(msg.get_attr('IFA_FLAGS'))
+    # FIXME: See iproute2's print_ifa_flags() function to know how to print these flags
+    dynamic = (aflag & IFAFlag.PERMANENT == 0)
+    noprefixroute = (aflag & IFAFlag.NOPREFIXROUTE == IFAFlag.NOPREFIXROUTE)
+    return AddrInfo(
+        family=family,
+        local=local,
+        prefixlen=prefixlen,
+        broadcast=broadcast,
+        scope=scope,
+        dynamic=dynamic,
+        mngtmpaddr=None,
+        noprefixroute=noprefixroute,
+        label=label,
+        valid_life_time=valid_life_time,
+        preferred_life_time=preferred_life_time
+    )
+
+
 def get_links() -> Tuple[IPLink, ...]:
     '''
-    Return result same as ``ip -j -d link``
+    Return result same as ``ip -j -d link``.
     '''
-    ip = IPRoute()
+    ip = _IPRoute()
     links = []
     for raw in ip.get_links():
         links.append(shinify_link(raw))
     return tuple(links)
+
+
+def get_addrs() -> Tuple[IPAddr, ...]:
+    '''
+    Return result same as ``ip -j -d addr``.
+    '''
+    ip = _IPRoute()
+    links = get_links()
+    addresses = []
+    for li in links:
+        data = li.to_dict()
+        data.pop('linkmode')
+        data.pop('inet6_addr_gen_mode', None)
+        ainfos = ip.get_addr(label=li.ifname)
+        data['addr_info'] = tuple(shinify_addr_info(i) for i in ainfos)
+        a = IPAddr(**data)
+        addresses.append(a)
+    return tuple(addresses)

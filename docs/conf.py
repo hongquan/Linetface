@@ -16,7 +16,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-
+import ipaddress   # NOQA: F401
 import linetface   # NOQA: F401
 import linetface.consts   # NOQA: F401
 import netaddr     # NOQA: F401
@@ -76,7 +76,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
-
+# autodoc_typehints = 'description'
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
     'netaddr': ('https://netaddr.readthedocs.io/en/latest/', None)

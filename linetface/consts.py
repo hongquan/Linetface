@@ -81,11 +81,7 @@ class LinkFlag(IntFlag):
         yield from members
 
 
-# Aggregate from iproute2's ll_types.c and Linux kernel's if_arp.h
-# The Linux source code has more type than iproute2.
-# The integer value is the real value returned by kernel, the string value
-# is the one to display to user.
-class LinkType(int, Enum):
+class _IntDispEnum(int, Enum):
     def __new__(cls, value, display):
         obj = int.__new__(cls, value)
         obj._value_ = value
@@ -95,6 +91,12 @@ class LinkType(int, Enum):
     def __str__(self):
         return self.display
 
+
+# Aggregate from iproute2's ll_types.c and Linux kernel's if_arp.h
+# The Linux source code has more type than iproute2.
+# The integer value is the real value returned by kernel, the string value
+# is the one to display to user.
+class LinkType(_IntDispEnum):
     NETROM = (0, 'netrom')             # from KA9Q: NET/ROM pseudo
     ETHER = (1, 'ether')
     EETHER = (2, 'eether')             # Experimental Ethernet
@@ -183,17 +185,41 @@ class LinkType(int, Enum):
     NONE = (65534, 'none')             # zero header length
 
 
-class Inet6AddrGenMode(int, Enum):
-    def __new__(cls, value, display):
-        obj = int.__new__(cls, value)
-        obj._value_ = value
-        obj.display = display
-        return obj
-
-    def __str__(self):
-        return self.display
-
+class Inet6AddrGenMode(_IntDispEnum):
     EUI64 = (0, 'eui64')
     NONE = (1, 'none')
     STABLE_PRIVACY = (2, 'stable_secret')
     RANDOM = (3, 'random')
+
+
+class AddressFamily(_IntDispEnum):
+    INET = (2, 'inet')
+    INET6 = (10, 'inet6')
+    PACKET = (17, 'link')
+    IPX = (4, 'ipx')
+    MPLS = (28, 'mpls')
+    BRIDGE = (7, 'bridge')
+
+
+class RTScope(_IntDispEnum):
+    UNIVERSE = (0, 'global')
+    NOWHERE = (255, 'nowhere')
+    HOST = (254, 'host')
+    LINK = (253, 'link')
+    SITE = (200, 'site')
+
+
+class IFAFlag(IntFlag):
+    SECONDARY = 0x01
+    TEMPORARY = 0x01
+    NODAD = 0x02
+    OPTIMISTIC = 0x04
+    DADFAILED = 0x08
+    HOMEADDRESS = 0x10
+    DEPRECATED = 0x20
+    TENTATIVE = 0x40
+    PERMANENT = 0x80
+    MANAGETEMPADDR = 0x100
+    NOPREFIXROUTE = 0x200
+    MCAUTOJOIN = 0x400
+    STABLE_PRIVACY = 0x800

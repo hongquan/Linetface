@@ -23,7 +23,7 @@ Usage
 
 .. code-block:: python
 
-    >>> from linetface import get_links
+    >>> from linetface import get_links, get_addrs
 
     >>> get_links()
     (
@@ -69,6 +69,73 @@ Usage
             address=EUI('0c:54:15:fa:0a:23'),
             broadcast=EUI('ff:ff:ff:ff:ff:ff')
         )
+    )
+
+    >>> get_addrs()
+    (
+        (
+            IPAddr(
+                ifindex=1,
+                ifname='lo',
+                flags=(<LinkFlag.LOWER_UP: 65536>, <LinkFlag.LOOPBACK: 8>, <LinkFlag.UP: 1>),
+                mtu=65536,
+                qdisc='noqueue',
+                operstate=<OperState.UNKNOWN: 'UNKNOWN'>,
+                group='default',
+                txqlen=1000,
+                link_type=<LinkType.LOOPBACK: 772>,
+                address=EUI('00:00:00:00:00:00'),
+                broadcast=EUI('00:00:00:00:00:00'),
+                promiscuity=0,
+                min_mtu=0,
+                max_mtu=0,
+                num_tx_queues=1,
+                num_rx_queues=1,
+                gso_max_size=65536,
+                gso_max_segs=65535,
+                addr_info=(
+                    AddrInfo(
+                        family=<AddressFamily.INET: 2>,
+                        local=IPv4Address('127.0.0.1'),
+                        prefixlen=8,
+                        broadcast=None,
+                        scope=<RTScope.HOST: 254>,
+                        dynamic=False,
+                        mngtmpaddr=None,
+                        noprefixroute=False,
+                        label='lo',
+                        valid_life_time=4294967295,
+                        preferred_life_time=4294967295
+                    ),
+                )
+            )
+        ),
+        (
+            IPAddr(ifindex=2, ifname='enp2s0', flags=(<LinkFlag.NO_CARRIER: 0>, <LinkFlag.MULTICAST: 4096>,
+            <LinkFlag.BROADCAST: 2>, <LinkFlag.UP: 1>), mtu=1500, qdisc='fq_codel', operstate=<OperState.DOWN: 'DOWN'>,
+            group='default', txqlen=1000, link_type=<LinkType.ETHER: 1>, address=EUI('54:bf:64:09:eb:3d'),
+            broadcast=EUI('ff:ff:ff:ff:ff:ff'), promiscuity=0, min_mtu=60, max_mtu=9200, num_tx_queues=1,
+            num_rx_queues=1, gso_max_size=64000, gso_max_segs=64, addr_info=())
+        ),
+        (
+            IPAddr(ifindex=3, ifname='wlp1s0', flags=(<LinkFlag.LOWER_UP: 65536>, <LinkFlag.MULTICAST: 4096>,
+            <LinkFlag.BROADCAST: 2>, <LinkFlag.UP: 1>), mtu=1500, qdisc='noqueue', operstate=<OperState.UP: 'UP'>,
+            group='default', txqlen=1000, link_type=<LinkType.ETHER: 1>, address=EUI('0c:54:15:fa:0a:23'),
+            broadcast=EUI('ff:ff:ff:ff:ff:ff'), promiscuity=0, min_mtu=256, max_mtu=2304, num_tx_queues=1,
+            num_rx_queues=1, gso_max_size=65536, gso_max_segs=65535, addr_info=(AddrInfo(family=<AddressFamily.INET: 2>,
+            local=IPv4Address('192.168.10.14'), prefixlen=24, broadcast=IPv4Address('192.168.10.255'),
+            scope=<RTScope.UNIVERSE: 0>, dynamic=True, mngtmpaddr=None, noprefixroute=True, label='wlp1s0',
+            valid_life_time=79573, preferred_life_time=79573),))
+        ),
+        (
+            IPAddr(ifindex=4, ifname='wg0', flags=(<LinkFlag.LOWER_UP: 65536>, <LinkFlag.NOARP: 128>,
+            <LinkFlag.POINTOPOINT: 16>, <LinkFlag.UP: 1>), mtu=1420, qdisc='noqueue', operstate=<OperState.UNKNOWN:
+            'UNKNOWN'>, group='default', txqlen=1000, link_type=<LinkType.NONE: 65534>, address=None, broadcast=None,
+            promiscuity=0, min_mtu=0, max_mtu=65440, num_tx_queues=1, num_rx_queues=1, gso_max_size=65536,
+            gso_max_segs=65535, addr_info=(AddrInfo(family=<AddressFamily.INET: 2>, local=IPv4Address('192.168.12.12'),
+            prefixlen=24, broadcast=None, scope=<RTScope.UNIVERSE: 0>, dynamic=False, mngtmpaddr=None,
+            noprefixroute=False, label='wg0', valid_life_time=4294967295, preferred_life_time=4294967295),))
+        ),
     )
 
 

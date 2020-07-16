@@ -10,6 +10,8 @@ Main Interface
 
 .. autofunction:: get_links
 
+.. autofunction:: get_addrs
+
 
 Constants
 ---------
@@ -21,8 +23,14 @@ Constants
 Data types
 ----------
 
-.. automodule:: linetface.core
-    :members:
-    :exclude-members: IPLink
+.. autoclass:: linetface.core::LinuxMAC
 
-.. autoclass:: linetface.core::IPLink(type)
+.. autoclass:: linetface.core::AddrInfo
+
+.. autoclass:: linetface.core::IPLink
+    :members:
+    :inherited-members:
+
+.. autoclass:: linetface.core::IPAddr
+    :members:
+    :inherited-members:

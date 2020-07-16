@@ -1,6 +1,7 @@
 import dataclasses
 from dataclasses import dataclass
-from typing import List, Union, Optional
+from ipaddress import IPv4Address, IPv6Address
+from typing import List, Tuple, Union, Optional
 
 from netaddr import EUI
 from netaddr.strategy.eui48 import mac_unix_expanded
@@ -14,9 +15,11 @@ class LinuxMAC(EUI):
 
 
 @dataclass
-class IPLink:
+class IPCommonInfo:
     '''
-    The class which represent a data structure member of ``ip -j link`` result
+    Common class
+
+    :meta private:
     '''
     ifindex: str
     ifname: str
@@ -24,7 +27,6 @@ class IPLink:
     mtu: int
     qdisc: str
     operstate: OperState
-    linkmode: LinkMode
     group: str
     txqlen: int
     link_type: LinkType
@@ -33,11 +35,42 @@ class IPLink:
     promiscuity: int
     min_mtu: int
     max_mtu: int
-    inet6_addr_gen_mode: str
     num_tx_queues: int
     num_rx_queues: int
     gso_max_size: int
     gso_max_segs: int
 
+
+@dataclass
+class IPLink(IPCommonInfo):
+    '''
+    The class which represent a data structure member of ``ip -j -d link`` result.
+    '''
+    linkmode: LinkMode
+    inet6_addr_gen_mode: str
+
     def to_dict(self):
         return dataclasses.asdict(self)
+
+
+@dataclass
+class AddrInfo:
+    family: str
+    local: Union[IPv4Address, IPv6Address]
+    prefixlen: str
+    broadcast: Union[IPv4Address, IPv6Address, None]
+    scope: str
+    dynamic: Optional[bool]
+    mngtmpaddr: Optional[bool]
+    noprefixroute: Optional[bool]
+    label: Optional[str]
+    valid_life_time: int
+    preferred_life_time: int
+
+
+@dataclass
+class IPAddr(IPCommonInfo):
+    '''
+    The class which represent a data structure member of ``ip -j -d addr`` result.
+    '''
+    addr_info: Tuple[AddrInfo, ...]

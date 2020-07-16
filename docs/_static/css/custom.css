@@ -2,6 +2,10 @@ dl.py.class {
     margin-top: 1em;
 }
 
+dl.py.function {
+    margin-top: 1em;
+}
+
 dd > :first-child {
     margin-bottom: 0.5em;
 }
