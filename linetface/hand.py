@@ -84,6 +84,9 @@ def shinify_link(msg: ifinfmsg) -> IPLink:
 
 
 def get_links() -> Tuple[IPLink, ...]:
+    '''
+    Return result same as ``ip -j -d link``
+    '''
     ip = IPRoute()
     links = []
     for raw in ip.get_links():

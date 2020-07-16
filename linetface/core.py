@@ -8,7 +8,7 @@ from .consts import LinkFlag, OperState, LinkMode, LinkType
 
 
 class LinuxMAC(EUI):
-    ''' Subclass of netaddr.EUI to force display to common format used by Linux tools '''
+    ''' Subclass of :py:class:`netaddr.EUI` to force display to common format used by Linux tools '''
     def __init__(self, addr: Union[str, EUI], version: Optional[int] = None):
         return super().__init__(addr, dialect=mac_unix_expanded)
 
@@ -16,7 +16,7 @@ class LinuxMAC(EUI):
 @dataclass
 class IPLink:
     '''
-    The class which represent a data structure member of "ip -j link" result
+    The class which represent a data structure member of ``ip -j link`` result
     '''
     ifindex: str
     ifname: str
